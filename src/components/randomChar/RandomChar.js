@@ -1,4 +1,4 @@
-import Component from 'react';
+import { Component } from 'react';
 import MarvelService from '../../services/MarvelService';
 
 import './randomChar.scss';
@@ -67,7 +67,7 @@ class RandomChar extends Component {
           <button className="button button__main" type="button">
             <div className="inner">try it</div>
           </button>
-          <img src={thumbnail} alt="mjolnir" className="randomchar__decoration" />
+          <img src="" alt="mjolnir" className="randomchar__decoration" />
         </div>
       </div>
     );

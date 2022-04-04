@@ -42,7 +42,10 @@ function CharList() {
           <div className="char__name">Abyss</div>
         </li>
       </ul>
-      <button className="button button__main button__long">
+      <button
+        className="button button__main button__long"
+        type="button"
+      >
         <div className="inner">load more</div>
       </button>
     </div>
