@@ -21,28 +21,32 @@
     ],
     "rules": {
         "react/react-in-jsx-scope": "off",
-      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-      "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
-      "linebreak-style": ["error", "windows"],
-      "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
-      "react/destructuring-assignment": [1, "always"],
-      "react/jsx-props-no-spreading": ["warn", {
-        "html": "ignore",
-        "custom": "ignore",
-        "explicitSpread": "enforce",
-        "exceptions": ["Image", "img"]}],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+        "linebreak-style": ["error", "windows"],
+         "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+        "react/destructuring-assignment": [1, "always"],
+        "react/jsx-props-no-spreading": ["warn", {
+            "html": "ignore",
+            "custom": "ignore",
+            "explicitSpread": "enforce",
+            "exceptions": ["Image", "img"]
+        }],
         "react/prefer-stateless-function": [0],
         "max-classes-per-file": [
             "error",
             3
         ],
         "no-console": "off",
-        "class-methods-use-this": ["error", { "exceptMethods": ["getResource"] }],
+        "class-methods-use-this": ["error", { "exceptMethods": ["getResource", "render"] }],
         "no-param-reassign": ["error", { "props": false }],
         "react/no-unstable-nested-components": [
             "off" ,
             { "allowAsProps": false }
-          ],
-          "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }]
+        ],
+        "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
+        "import/no-named-as-default": 0,
+        "import/no-named-as-default-member": 0,
+        "max-len": 0
     }
 }
