@@ -11,12 +11,21 @@ class RandomChar extends Component {
   constructor(props) {
     super(props);
     this.marvelService = new MarvelService();
-    this.updateChar();
+
     this.state = {
       char: {},
       loading: true,
       error: false,
     };
+  }
+
+  componentDidMount() {
+    this.updateChar();
+    // this.timerID = setInterval(this.updateChar, 3000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
   }
 
   onCharLoaded(char) {
@@ -45,7 +54,7 @@ class RandomChar extends Component {
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error) ? <View char={char} /> : null;
+    const content = !(loading || error) ? <View char={char} loading={error} /> : null;
 
     return (
       <div className="randomchar">
@@ -61,7 +70,14 @@ class RandomChar extends Component {
           <p className="randomchar__title">
             Or choose another one
           </p>
-          <button className="button button__main" type="button">
+          <button
+            className="button button__main"
+            type="button"
+            onClick={() => {
+              this.setState({ loading: true });
+              this.updateChar();
+            }}
+          >
             <div className="inner">try it</div>
           </button>
           <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
@@ -71,14 +87,14 @@ class RandomChar extends Component {
   }
 }
 
-function View({ char }) {
+function View({ char, error }) {
   const {
     name, description, thumbnail, homepage, wiki,
   } = char;
 
   return (
     <div className="randomchar__block">
-      <img src={thumbnail} alt="Random character" className="randomchar__img" />
+      <img style={error ? { 'object-fit': 'contain' } : null} src={thumbnail} alt="Random character" className="randomchar__img" />
       <div className="randomchar__info">
         <p className="randomchar__name">{name}</p>
         <p className="randomchar__descr">
@@ -100,9 +116,11 @@ function View({ char }) {
 export default RandomChar;
 
 View.propTypes = {
-  char: propTypes.objectOf,
+  char: propTypes.any,
+  error: propTypes.bool,
 };
 
 View.defaultProps = {
   char: {},
+  error: false,
 };
