@@ -1,5 +1,9 @@
-
 class MarvelService {
+  constructor() {
+    this.apiBase = 'https://gateway.marvel.com:443/v1/public/';
+    this.apiKey = 'apikey=54ee321803eeeb8fba1350ad85faa20c';
+  }
+
   async getResource(url) {
     const res = await fetch(url);
 
@@ -13,7 +17,11 @@ class MarvelService {
   }
 
   getAllCharacter() {
-    return this.getResource('https://gateway.marvel.com:443/v1/public/characters?apikey=54ee321803eeeb8fba1350ad85faa20c');
+    return this.getResource(`${this.apiBase}characters?limit=9&offset=210&${this.apiKey}`);
+  }
+
+  getCharacter(id) {
+    return this.getResource(`${this.apiBase}characters/${id}?${this.apiKey}`);
   }
 }
 
