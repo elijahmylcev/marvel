@@ -27,6 +27,7 @@ class MarvelService {
   }
 
   transformCharacter(char) {
+    console.log(this.apiBase);
     return {
       name: char.name,
       description: char.description,

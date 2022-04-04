@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import MarvelService from '../../services/MarvelService';
-
+import mjolnir from '../../resources/img/mjolnir.png';
 import './randomChar.scss';
+
+import MarvelService from '../../services/MarvelService';
 
 class RandomChar extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class RandomChar extends Component {
         name, description, thumbnail, homepage, wiki,
       },
     } = this.state;
+    console.log(homepage);
     return (
       <div className="randomchar">
         <div className="randomchar__block">
@@ -61,7 +63,7 @@ class RandomChar extends Component {
           <button className="button button__main" type="button">
             <div className="inner">try it</div>
           </button>
-          <img src="" alt="mjolnir" className="randomchar__decoration" />
+          <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
         </div>
       </div>
     );
