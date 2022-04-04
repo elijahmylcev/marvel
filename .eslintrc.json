@@ -38,7 +38,7 @@
             3
         ],
         "no-console": "off",
-        "class-methods-use-this": ["error", { "exceptMethods": ["getResource", "render"] }],
+        "class-methods-use-this": ["error", { "exceptMethods": ["getResource", "render", "transformCharacter"] }],
         "no-param-reassign": ["error", { "props": false }],
         "react/no-unstable-nested-components": [
             "off" ,
@@ -47,6 +47,6 @@
         "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
         "import/no-named-as-default": 0,
         "import/no-named-as-default-member": 0,
-        "max-len": 0
+        "no-underscore-dangle": 0
     }
 }
