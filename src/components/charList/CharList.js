@@ -12,15 +12,27 @@ class CharList extends Component {
     super();
     this.request = new MarvelService();
     this.state = {
-      characters: [],
+      charList: [],
       loading: true,
       error: false,
-
+      newItemLoading: false,
+      offset: 210,
     };
   }
 
   componentDidMount() {
     this.getCharacters();
+  }
+
+  onRequest(num = 9) {
+    this.onCharListLoading();
+    this.getCharacters(num);
+  }
+
+  onCharListLoading() {
+    this.setState({
+      newItemLoading: true,
+    });
   }
 
   onError() {
@@ -30,23 +42,23 @@ class CharList extends Component {
     });
   }
 
-  getCharacters() {
-    const { characters } = this.state;
-    this.request.getAllCharacter()
+  getCharacters(num) {
+    this.request.getAllCharacter(num)
       .then((res) => {
-        const newArray = characters.concat(res);
-        this.setState({
-          characters: newArray,
+        this.setState(({ offset, charList }) => ({
+          charList: [...charList, ...res],
           loading: false,
-        });
+          newItemLoading: false,
+          offset: offset + num,
+        }));
       })
       .catch(this.onError);
   }
 
   renderItems() {
     const { onCharSelected } = this.props;
-    const { characters } = this.state;
-    const elements = characters.map((item) => (
+    const { charList } = this.state;
+    const elements = charList.map((item) => (
       <li
         className="char__item"
         key={item.id}
@@ -70,7 +82,9 @@ class CharList extends Component {
   }
 
   render() {
-    const { error, loading } = this.state;
+    const {
+      error, loading, newItemLoading, offset,
+    } = this.state;
 
     const items = this.renderItems();
 
@@ -86,6 +100,8 @@ class CharList extends Component {
         <button
           className="button button__main button__long"
           type="button"
+          disabled={newItemLoading}
+          onClick={() => this.onRequest(offset)}
         >
           <div className="inner">load more</div>
         </button>
