@@ -32,11 +32,11 @@ class CharList extends Component {
   render() {
     const { characters } = this.state;
     const elements = characters.map((item) => (
-      <li className="char__item" key={item.name}>
+      <li className="char__item" key={item.id}>
         <img
           src={item.thumbnail}
           alt="abyss"
-          style={item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' ? { objectFit: 'contain' } : null}
+          style={item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' ? { objectFit: 'fill' } : null}
         />
         <div className="char__name">{item.name}</div>
       </li>
