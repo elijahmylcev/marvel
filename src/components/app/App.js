@@ -12,6 +12,7 @@ class App extends Component {
     this.state = {
       selectedChar: null,
     };
+    this.onCharSelected = this.onCharSelected.bind(this);
   }
 
   onCharSelected(id) {

@@ -1,20 +1,33 @@
 import { Component } from 'react';
+import propTypes from 'prop-types';
 import './charList.scss';
 import MarvelService from '../../services/MarvelService';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+import Spinner from '../spinner/Spinner';
 
 // char__item_selected ---> active class
 
 class CharList extends Component {
   constructor() {
     super();
+    this.request = new MarvelService();
     this.state = {
       characters: [],
+      loading: true,
+      error: false,
+
     };
   }
 
   componentDidMount() {
-    this.request = new MarvelService();
     this.getCharacters();
+  }
+
+  onError() {
+    this.setState({
+      error: true,
+      loading: false,
+    });
   }
 
   getCharacters() {
@@ -24,15 +37,22 @@ class CharList extends Component {
         const newArray = characters.concat(res);
         this.setState({
           characters: newArray,
+          loading: false,
         });
       })
-      .catch((e) => console.log(e));
+      .catch(this.onError);
   }
 
-  render() {
+  renderItems() {
+    const { onCharSelected } = this.props;
     const { characters } = this.state;
     const elements = characters.map((item) => (
-      <li className="char__item" key={item.id}>
+      <li
+        className="char__item"
+        key={item.id}
+        onClick={() => onCharSelected(item.id)}
+        aria-hidden="true"
+      >
         <img
           src={item.thumbnail}
           alt="abyss"
@@ -41,11 +61,28 @@ class CharList extends Component {
         <div className="char__name">{item.name}</div>
       </li>
     ));
+
+    return (
+      <ul className="char__grid">
+        {elements}
+      </ul>
+    );
+  }
+
+  render() {
+    const { error, loading } = this.state;
+
+    const items = this.renderItems();
+
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spinner = loading ? <Spinner /> : null;
+    const content = !(loading || error) ? items : null;
+
     return (
       <div className="char__list">
-        <ul className="char__grid">
-          {elements}
-        </ul>
+        {errorMessage}
+        {spinner}
+        {content}
         <button
           className="button button__main button__long"
           type="button"
@@ -56,5 +93,9 @@ class CharList extends Component {
     );
   }
 }
+
+CharList.propTypes = {
+  onCharSelected: propTypes.func.isRequired,
+};
 
 export default CharList;
