@@ -86,14 +86,20 @@ class RandomChar extends Component {
   }
 }
 
-function View({ char, error }) {
+function View({ char }) {
   const {
     name, description, thumbnail, homepage, wiki,
   } = char;
 
   return (
     <div className="randomchar__block">
-      <img style={error ? { 'object-fit': 'contain' } : null} src={thumbnail} alt="Random character" className="randomchar__img" />
+      <img
+        style={char.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+          ? { objectFit: 'contain' } : null}
+        src={thumbnail}
+        alt="Random character"
+        className="randomchar__img"
+      />
       <div className="randomchar__info">
         <p className="randomchar__name">{name}</p>
         <p className="randomchar__descr">
@@ -116,10 +122,8 @@ export default RandomChar;
 
 View.propTypes = {
   char: propTypes.any,
-  error: propTypes.bool,
 };
 
 View.defaultProps = {
   char: {},
-  error: false,
 };
