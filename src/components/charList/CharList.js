@@ -10,23 +10,26 @@ import Spinner from '../spinner/Spinner';
 class CharList extends Component {
   constructor() {
     super();
-    this.request = new MarvelService();
+    this.marvelService = new MarvelService();
     this.state = {
       charList: [],
       loading: true,
       error: false,
       newItemLoading: false,
       offset: 210,
+      charEnded: false,
     };
   }
 
   componentDidMount() {
-    this.getCharacters();
+    this.onRequest();
   }
 
-  onRequest(num = 9) {
+  onRequest(offset) {
     this.onCharListLoading();
-    this.getCharacters(num);
+    this.marvelService.getAllCharacter(offset)
+      .then((res) => this.onCharListLoaded(res))
+      .catch(() => this.onError());
   }
 
   onCharListLoading() {
@@ -35,24 +38,26 @@ class CharList extends Component {
     });
   }
 
+  onCharListLoaded(newCharList) {
+    let ended = false;
+    if (newCharList.length < 9) {
+      ended = true;
+    }
+
+    this.setState(({ offset, charList }) => ({
+      charList: [...charList, ...newCharList],
+      loading: false,
+      newItemLoading: false,
+      offset: offset + 9,
+      charEnded: ended,
+    }));
+  }
+
   onError() {
     this.setState({
       error: true,
       loading: false,
     });
-  }
-
-  getCharacters(num) {
-    this.request.getAllCharacter(num)
-      .then((res) => {
-        this.setState(({ offset, charList }) => ({
-          charList: [...charList, ...res],
-          loading: false,
-          newItemLoading: false,
-          offset: offset + num,
-        }));
-      })
-      .catch(this.onError);
   }
 
   renderItems() {
@@ -83,7 +88,7 @@ class CharList extends Component {
 
   render() {
     const {
-      error, loading, newItemLoading, offset,
+      error, loading, newItemLoading, offset, charEnded,
     } = this.state;
 
     const items = this.renderItems();
@@ -101,6 +106,7 @@ class CharList extends Component {
           className="button button__main button__long"
           type="button"
           disabled={newItemLoading}
+          style={{ display: charEnded ? 'none' : 'block' }}
           onClick={() => this.onRequest(offset)}
         >
           <div className="inner">load more</div>
