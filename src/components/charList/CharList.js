@@ -19,6 +19,7 @@ class CharList extends Component {
       offset: 210,
       charEnded: false,
     };
+    this.itemRefs = [];
   }
 
   componentDidMount() {
@@ -60,14 +61,29 @@ class CharList extends Component {
     });
   }
 
+  setRef(ref) {
+    this.itemRefs.push(ref);
+    console.log(ref);
+  }
+
+  focusOnItem(id) {
+    this.itemRefs.forEach((item) => item.classList.remove('char__item_selected'));
+    this.itemRefs[id].classList.add('char__item_selected');
+    this.itemRefs[id].focus();
+  }
+
   renderItems() {
     const { onCharSelected } = this.props;
     const { charList } = this.state;
-    const elements = charList.map((item) => (
+    const elements = charList.map((item, i) => (
       <li
         className="char__item"
         key={item.id}
-        onClick={() => onCharSelected(item.id)}
+        ref={(e) => this.setRef(e)}
+        onClick={() => {
+          onCharSelected(item.id);
+          this.focusOnItem(i);
+        }}
         aria-hidden="true"
       >
         <img
