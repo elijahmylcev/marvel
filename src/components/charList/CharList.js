@@ -20,6 +20,8 @@ class CharList extends Component {
       charEnded: false,
     };
     this.itemRefs = [];
+
+    this.focusOnItem = this.focusOnItem.bind(this);
   }
 
   componentDidMount() {
@@ -61,15 +63,16 @@ class CharList extends Component {
     });
   }
 
-  setRef(ref) {
-    this.itemRefs.push(ref);
-    console.log(ref);
-  }
+  // setRef(ref) {
+  //   console.log(ref);
+  //   this.itemRefs.push(ref);
+  // }
 
   focusOnItem(id) {
     this.itemRefs.forEach((item) => item.classList.remove('char__item_selected'));
     this.itemRefs[id].classList.add('char__item_selected');
     this.itemRefs[id].focus();
+    console.log(this.itemRefs);
   }
 
   renderItems() {
@@ -78,6 +81,7 @@ class CharList extends Component {
     const elements = charList.map((item, i) => (
       <li
         className="char__item"
+        tabIndex={0}
         key={item.id}
         ref={(e) => this.setRef(e)}
         onClick={() => {
@@ -89,7 +93,8 @@ class CharList extends Component {
         <img
           src={item.thumbnail}
           alt="abyss"
-          style={item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' ? { objectFit: 'fill' } : null}
+          style={item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+            ? { objectFit: 'fill' } : null}
         />
         <div className="char__name">{item.name}</div>
       </li>
