@@ -38,7 +38,7 @@
             3
         ],
         "no-console": "off",
-        "class-methods-use-this": ["error", { "exceptMethods": ["getResource", "render", "transformCharacter"] }],
+        "class-methods-use-this": ["error", { "exceptMethods": ["getResource", "render", "transformCharacter", "focusOnItem"] }],
         "no-param-reassign": ["error", { "props": false }],
         "react/no-unstable-nested-components": [
             "off" ,

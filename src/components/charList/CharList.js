@@ -5,8 +5,6 @@ import MarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import Spinner from '../spinner/Spinner';
 
-// char__item_selected ---> active class
-
 class CharList extends Component {
   constructor() {
     super();
@@ -19,7 +17,6 @@ class CharList extends Component {
       offset: 210,
       charEnded: false,
     };
-    this.itemRefs = [];
 
     this.focusOnItem = this.focusOnItem.bind(this);
   }
@@ -63,30 +60,21 @@ class CharList extends Component {
     });
   }
 
-  // setRef(ref) {
-  //   console.log(ref);
-  //   this.itemRefs.push(ref);
-  // }
-
   focusOnItem(id) {
-    this.itemRefs.forEach((item) => item.classList.remove('char__item_selected'));
-    this.itemRefs[id].classList.add('char__item_selected');
-    this.itemRefs[id].focus();
-    console.log(this.itemRefs);
+    console.log(id);
   }
 
   renderItems() {
     const { onCharSelected } = this.props;
     const { charList } = this.state;
-    const elements = charList.map((item, i) => (
+    const elements = charList.map((item) => (
       <li
         className="char__item"
         tabIndex={0}
         key={item.id}
-        ref={(e) => this.setRef(e)}
         onClick={() => {
           onCharSelected(item.id);
-          this.focusOnItem(i);
+          this.focusOnItem(item.id);
         }}
         aria-hidden="true"
       >
