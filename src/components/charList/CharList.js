@@ -16,6 +16,7 @@ class CharList extends Component {
       newItemLoading: false,
       offset: 210,
       charEnded: false,
+      selectedChar: false,
     };
 
     this.focusOnItem = this.focusOnItem.bind(this);
@@ -61,32 +62,38 @@ class CharList extends Component {
   }
 
   focusOnItem(id) {
-    console.log(id);
+    this.setState({
+      selectedChar: id,
+    });
   }
 
   renderItems() {
     const { onCharSelected } = this.props;
-    const { charList } = this.state;
-    const elements = charList.map((item) => (
-      <li
-        className="char__item"
-        tabIndex={0}
-        key={item.id}
-        onClick={() => {
-          onCharSelected(item.id);
-          this.focusOnItem(item.id);
-        }}
-        aria-hidden="true"
-      >
-        <img
-          src={item.thumbnail}
-          alt="abyss"
-          style={item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
-            ? { objectFit: 'fill' } : null}
-        />
-        <div className="char__name">{item.name}</div>
-      </li>
-    ));
+    const { charList, selectedChar } = this.state;
+    const elements = charList.map((item) => {
+      const classNameLi = item.id === selectedChar ? 'char__item char__item_selected' : 'char__item';
+
+      return (
+        <li
+          tabIndex={0}
+          key={item.id}
+          className={classNameLi}
+          onClick={() => {
+            onCharSelected(item.id);
+            this.focusOnItem(item.id);
+          }}
+          aria-hidden="true"
+        >
+          <img
+            src={item.thumbnail}
+            alt="abyss"
+            style={item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+              ? { objectFit: 'fill' } : null}
+          />
+          <div className="char__name">{item.name}</div>
+        </li>
+      );
+    });
 
     return (
       <ul className="char__grid">
